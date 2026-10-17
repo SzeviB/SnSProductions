@@ -32,6 +32,7 @@ section[hidden]{display:none}
 .band>.in{position:relative;z-index:1;width:100%}
 .hero{min-height:calc(100svh - 4.5rem)}
 .hero h1{font:clamp(4rem,19vw,15rem)/.88 var(--display);text-transform:uppercase}
+.hero h1 img{display:block;width:min(100%,40rem);height:auto}
 .hero p{margin-top:1.25rem;max-width:34rem;font-size:1.2rem}
 .text{min-height:90vh;align-items:center}
 .text .in{max-width:40rem}
@@ -47,22 +48,23 @@ h2{font:clamp(2rem,5vw,3.5rem)/1 var(--display);text-transform:uppercase;margin:
 .filters button:hover{border-color:var(--fg)}
 .filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,18rem),1fr));gap:.75rem}
-.tile{position:relative;aspect-ratio:3/2;background-image:var(--img),linear-gradient(135deg,#1a1a1a,#2c2c2c);background-size:cover;background-position:center;filter:grayscale(1) contrast(1.05);transition:filter .3s;overflow:hidden}
+.tile{position:relative;aspect-ratio:3/2;background-image:var(--img),linear-gradient(135deg,#1a1a1a,#2c2c2c);background-size:cover;background-position:center;filter:grayscale(1) contrast(1.05);transition:filter .3s;overflow:hidden;cursor:pointer}
 .tile.wide{grid-column:span 2;aspect-ratio:auto}
 .tile:hover{filter:none}
 .tile span{position:absolute;left:0;right:0;bottom:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:.9rem}
 .tile[hidden]{display:none}
+.tile[data-c="video"]::before{content:"";position:absolute;left:50%;top:50%;width:4rem;height:4rem;margin:-2rem 0 0 -2rem;border:2px solid #fff;border-radius:50%;background:rgba(0,0,0,.5)}
+.tile[data-c="video"]::after{content:"";position:absolute;left:50%;top:50%;margin:-.7rem 0 0 -.35rem;border-left:1.1rem solid #fff;border-top:.7rem solid transparent;border-bottom:.7rem solid transparent}
 .note{color:var(--mute);font-size:.9rem;margin-top:1.5rem;max-width:40rem}
-form{display:grid;gap:1.1rem;max-width:34rem}
-label{display:grid;gap:.35rem;font-weight:500}
-input,textarea{background:#000;color:var(--fg);border:1px solid var(--line);padding:.8rem;font:400 1rem var(--body);width:100%;border-radius:0}
-input:focus,textarea:focus{border-color:var(--fg);outline:none}
-textarea{min-height:9rem;resize:vertical}
-.send{justify-self:start}
-.status{color:var(--mute);min-height:1.5em}
 .contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:3rem}
+.contact .lead{display:grid;gap:1.5rem;justify-items:start;align-content:start;max-width:30rem}
 .contact dl{display:grid;gap:1rem;align-content:start}
 .contact dt{color:var(--mute);font-size:.9rem}
+#modal{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.93);display:grid;place-items:center;padding:1rem}
+#modal[hidden]{display:none}
+#stage iframe,#stage video{display:block;width:min(92vw,1100px);aspect-ratio:16/9;max-height:85vh;background:#000;border:0}
+#stage img{display:block;max-width:92vw;max-height:88vh}
+#close{position:absolute;top:.75rem;right:1rem;background:none;border:0;color:var(--fg);font:2.2rem/1 var(--body);cursor:pointer;padding:.25rem .6rem}
 footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mute);font-size:.9rem}
 @media (max-width:30rem){.tile.wide{grid-column:auto;aspect-ratio:3/2}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.band .bg{inset:0;transform:none!important}}
@@ -89,7 +91,8 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
     <div class="band hero">
       <div class="bg" style="--img:url('images/munka-1.jpg')"></div>
       <div class="in">
-        <h1>S&amp;S<br>Productions</h1>
+        <!-- A logó: töltsd fel az images mappába logo.png néven. Ha JPG, írd át itt logo.jpg-re. -->
+        <h1><img src="images/logo.png" alt="S&S Productions" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span hidden>S&amp;S<br>Productions</span></h1>
         <p data-i18n="tagline"></p>
       </div>
     </div>
@@ -99,6 +102,7 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
         <h2 data-i18n="about_h"></h2>
         <p data-i18n="about_p1"></p>
         <p data-i18n="about_p2"></p>
+        <p data-i18n="about_p3"></p>
       </div>
     </div>
     <div class="band cta">
@@ -117,13 +121,15 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
       <button data-f="foto" data-i18n="f_foto" aria-pressed="false"></button>
       <button data-f="video" data-i18n="f_video" aria-pressed="false"></button>
     </div>
+    <!-- Minden munka egy sor. A cím: data-hu (magyar) és data-en (angol).
+         Fotó: data-full = a nagy kép. Videó: data-yt = YouTube-azonosító VAGY data-mp4 = videófájl útvonala. -->
     <div class="grid">
-      <div class="tile wide" data-c="foto" style="--img:url('images/munka-1.jpg')"><span data-i18n="cap_foto"></span></div>
-      <div class="tile" data-c="video" style="--img:url('images/munka-2.jpg')"><span data-i18n="cap_video"></span></div>
-      <div class="tile" data-c="foto" style="--img:url('images/munka-3.jpg')"><span data-i18n="cap_foto"></span></div>
-      <div class="tile" data-c="foto" style="--img:url('images/munka-4.jpg')"><span data-i18n="cap_foto"></span></div>
-      <div class="tile wide" data-c="video" style="--img:url('images/munka-5.jpg')"><span data-i18n="cap_video"></span></div>
-      <div class="tile" data-c="foto" style="--img:url('images/munka-6.jpg')"><span data-i18n="cap_foto"></span></div>
+      <div class="tile wide" data-c="foto" data-full="images/munka-1.jpg" tabindex="0" role="button" style="--img:url('images/munka-1.jpg')"><span data-hu="Esküvő – cím" data-en="Wedding – title"></span></div>
+      <div class="tile" data-c="video" data-yt="" data-mp4="" tabindex="0" role="button" style="--img:url('images/munka-2.jpg')"><span data-hu="Reklámfilm – cím" data-en="Commercial – title"></span></div>
+      <div class="tile" data-c="foto" data-full="images/munka-3.jpg" tabindex="0" role="button" style="--img:url('images/munka-3.jpg')"><span data-hu="Portré – cím" data-en="Portrait – title"></span></div>
+      <div class="tile" data-c="foto" data-full="images/munka-4.jpg" tabindex="0" role="button" style="--img:url('images/munka-4.jpg')"><span data-hu="Esküvő – cím" data-en="Wedding – title"></span></div>
+      <div class="tile wide" data-c="video" data-yt="" data-mp4="" tabindex="0" role="button" style="--img:url('images/munka-5.jpg')"><span data-hu="Esküvői film – cím" data-en="Wedding film – title"></span></div>
+      <div class="tile" data-c="foto" data-full="images/munka-6.jpg" tabindex="0" role="button" style="--img:url('images/munka-6.jpg')"><span data-hu="Portré – cím" data-en="Portrait – title"></span></div>
     </div>
     <p class="note" data-i18n="note"></p>
   </section>
@@ -131,21 +137,23 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
   <section id="kapcsolat" role="tabpanel" class="wrap" hidden>
     <h2 data-i18n="contact_h"></h2>
     <div class="contact">
-      <form id="form" novalidate>
-        <label><span data-i18n="l_name"></span><input name="nev" autocomplete="name" required></label>
-        <label><span data-i18n="l_email"></span><input name="email" type="email" autocomplete="email" required></label>
-        <label><span data-i18n="l_msg"></span><textarea name="uzenet" required></textarea></label>
-        <button class="btn send" type="submit" data-i18n="send"></button>
-        <p class="status" role="status" id="status"></p>
-      </form>
+      <div class="lead">
+        <p data-i18n="contact_p"></p>
+        <a class="btn" data-mail data-i18n="mail_btn"></a>
+      </div>
       <dl>
-        <div><dt data-i18n="d_email"></dt><dd><a href="mailto:hello@example.hu">hello@example.hu</a></dd></div>
+        <div><dt data-i18n="d_email"></dt><dd><a data-mail data-mailtext></a></dd></div>
         <div><dt data-i18n="d_phone"></dt><dd>+36 00 000 0000</dd></div>
         <div><dt data-i18n="d_city"></dt><dd data-i18n="city_ph"></dd></div>
       </dl>
     </div>
   </section>
 </main>
+
+<div id="modal" hidden role="dialog" aria-modal="true">
+  <button id="close" aria-label="Bezárás / Close">×</button>
+  <div id="stage"></div>
+</div>
 
 <footer>© <span id="y"></span> S&amp;S Productions</footer>
 
@@ -157,33 +165,29 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
       nav_about:"Rólunk", nav_work:"Munkáink", nav_contact:"Kapcsolat",
       tagline:"Fotó és videó, amit nem felejtesz el.",
       about_h:"Rólunk",
-      about_p1:"Az S&S Productions fotó- és videóprodukciós csapat. Ide kerül a bemutatkozó szöveg: kik vagytok, mióta dolgoztok együtt, és mi a ti stílusotok.",
-      about_p2:"Írjátok le, milyen megbízásokat vállaltok (esküvő, reklám, rendezvény, portré), és mi különböztet meg benneteket másoktól.",
+      about_p1:"Az S&S Productions fotó- és videóprodukciós csapat. Három területre specializálódtunk: esküvőkre, reklámfilmekre és portrékra.",
+      about_p2:"Esküvőkön a nap hangulatát és a legfontosabb pillanatokat őrizzük meg, hogy évek múlva is úgy élhessétek újra, ahogy történt. Reklámfilmekben a márkád történetét képpé és mozgássá alakítjuk. Portréinkon az embert mutatjuk meg, természetesen és őszintén.",
+      about_p3:"Mesélj az elképzelésedről, és közösen megtaláljuk hozzá a legjobb formát.",
       cta_h:"Nézd meg a munkáinkat", cta_btn:"Munkáink megtekintése",
       work_h:"Munkáink", f_all:"Mind", f_foto:"Fotó", f_video:"Videó",
-      cap_foto:"Fotó – munka címe", cap_video:"Videó – munka címe",
-      note:"Egy kis részlet belőlünk",
-      contact_h:"Kapcsolat", l_name:"Név", l_email:"E-mail-cím", l_msg:"Üzenet", send:"Üzenet küldése",
+      note:"A képek szürkeárnyalatosak, egérrel föléjük víve színesek lesznek. Kattints egy munkára a megnyitáshoz.",
+      contact_h:"Kapcsolat", contact_p:"Írj nekünk e-mailben, és hamarosan válaszolunk.", mail_btn:"E-mail küldése",
       d_email:"E-mail", d_phone:"Telefon", d_city:"Város", city_ph:"Írjátok ide a városotokat",
-      err:"Töltsd ki mindhárom mezőt a küldés előtt.",
-      ok:"Megnyílt az e-mail-programod. Ott kattints a küldésre.",
-      subj:"Üzenet a weboldalról", b_name:"Név", b_mail:"E-mail"
+      subj:"Üzenet a weboldalról"
     },
     en:{
       nav_about:"About", nav_work:"Work", nav_contact:"Contact",
       tagline:"Photo and video you won’t forget.",
       about_h:"About us",
-      about_p1:"S&S Productions is a photo and video production team. Your introduction goes here: who you are, how long you have worked together, and what your style is.",
-      about_p2:"Describe the jobs you take on (weddings, advertising, events, portraits) and what sets you apart.",
+      about_p1:"S&S Productions is a photo and video production team. We focus on three areas: weddings, commercials and portraits.",
+      about_p2:"At weddings we capture the mood of the day and its most important moments, so you can relive it years later just as it happened. In commercials we turn your brand’s story into image and motion. In our portraits we show the person, naturally and honestly.",
+      about_p3:"Tell us about your idea and we will find the best way to bring it to life.",
       cta_h:"See our work", cta_btn:"View our work",
       work_h:"Our work", f_all:"All", f_foto:"Photo", f_video:"Video",
-      cap_foto:"Photo – project title", cap_video:"Video – project title",
-      note:"Images are shown in black and white. Hover over one to see it in colour.",
-      contact_h:"Contact", l_name:"Name", l_email:"E-mail address", l_msg:"Message", send:"Send message",
+      note:"Images are shown in black and white. Hover over one to see it in colour. Click a piece to open it.",
+      contact_h:"Contact", contact_p:"Write to us by e-mail and we will get back to you soon.", mail_btn:"Send an e-mail",
       d_email:"E-mail", d_phone:"Phone", d_city:"City", city_ph:"Add your city here",
-      err:"Fill in all three fields before sending.",
-      ok:"Your e-mail app has opened. Press send there.",
-      subj:"Message from the website", b_name:"Name", b_mail:"E-mail"
+      subj:"Message from the website"
     }
   };
   var lang = "hu";
@@ -196,8 +200,10 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
     document.documentElement.lang = l;
     document.title = "S&S Productions – " + (l === "hu" ? "fotó és videó" : "photo and video");
     document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent = T[l][el.dataset.i18n]; });
+    document.querySelectorAll("[data-hu]").forEach(function(el){ el.textContent = el.dataset[l]; });
     document.querySelectorAll("[data-lang]").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.lang === l); });
-    document.getElementById("status").textContent = "";
+    document.querySelectorAll("[data-mail]").forEach(function(a){ a.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(T[l].subj); });
+    document.querySelectorAll("[data-mailtext]").forEach(function(a){ a.textContent = EMAIL; });
   }
   document.querySelectorAll("[data-lang]").forEach(function(b){ b.addEventListener("click", function(){ setLang(b.dataset.lang); }); });
 
@@ -233,14 +239,36 @@ footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mu
     });
   });
 
-  document.getElementById("form").addEventListener("submit", function(e){
-    e.preventDefault();
-    var f = e.target, st = document.getElementById("status"), t = T[lang];
-    if(!f.nev.value.trim() || !f.email.value.trim() || !f.uzenet.value.trim()){ st.textContent = t.err; return; }
-    var body = f.uzenet.value + "\n\n" + t.b_name + ": " + f.nev.value + "\n" + t.b_mail + ": " + f.email.value;
-    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(t.subj) + "&body=" + encodeURIComponent(body);
-    st.textContent = t.ok;
+  var modal = document.getElementById("modal"), stage = document.getElementById("stage"), closeBtn = document.getElementById("close"), lastTile = null;
+  function openTile(t){
+    var html = "";
+    if(t.dataset.c === "video"){
+      if(t.dataset.yt){
+        html = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(t.dataset.yt) + '?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="Video"></iframe>';
+      } else if(t.dataset.mp4){
+        html = '<video src="' + t.dataset.mp4 + '" controls autoplay playsinline></video>';
+      }
+    } else if(t.dataset.full){
+      html = '<img src="' + t.dataset.full + '" alt="">';
+    }
+    if(!html) return;
+    lastTile = t;
+    stage.innerHTML = html;
+    modal.hidden = false;
+    closeBtn.focus();
+  }
+  function closeModal(){
+    modal.hidden = true;
+    stage.innerHTML = "";
+    if(lastTile) lastTile.focus();
+  }
+  document.querySelectorAll(".tile").forEach(function(t){
+    t.addEventListener("click", function(){ openTile(t); });
+    t.addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); openTile(t); } });
   });
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !modal.hidden) closeModal(); });
 
   document.getElementById("y").textContent = new Date().getFullYear();
   setLang(lang);
