@@ -30,10 +30,10 @@ section[hidden]{display:none}
 .band .bg{position:absolute;inset:-25% 0;background:linear-gradient(135deg,#1a1a1a,#2c2c2c) center/cover;background-image:var(--img),linear-gradient(135deg,#1a1a1a,#2c2c2c);filter:grayscale(1);will-change:transform}
 .band .bg::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.55)}
 .band>.in{position:relative;width:100%}
-.hero{min-height:calc(100svh - 4.5rem)}
+.hero{min-height:calc(100svh - 4.5rem);align-items:center;text-align:center}
 .hero h1{font:clamp(4rem,19vw,15rem)/.88 var(--display);text-transform:uppercase}
-.hero h1 img{display:block;width:min(100%,60rem);height:auto;mix-blend-mode:screen}
-.hero p{margin-top:1.25rem;max-width:34rem;font-size:1.2rem}
+.hero h1 img{display:block;width:min(100%,80rem);height:auto;margin:0 auto;mix-blend-mode:screen}
+.hero p{margin:1.25rem auto 0;max-width:34rem;font-size:1.2rem}
 .text{min-height:90vh;align-items:center}
 .text .in{max-width:40rem}
 .text p+p{margin-top:1rem}
