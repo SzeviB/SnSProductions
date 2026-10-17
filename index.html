@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S&amp;S Productions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--fg:#fff;--mute:#b5b5b5;--line:#333;--display:"Anton","Impact","Arial Narrow",sans-serif;--body:"Work Sans","Helvetica Neue",Arial,sans-serif;--pad:clamp(1rem,4vw,3rem)}
+*{box-sizing:border-box;margin:0}
+html{background:var(--bg);color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:400 1rem/1.6 var(--body);min-height:100vh}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem var(--pad);background:rgba(0,0,0,.88);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.logo{font:1.6rem/1 var(--display);letter-spacing:.04em;text-decoration:none}
+.right{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+nav{display:flex;gap:.25rem}
+nav button{background:none;border:0;color:var(--mute);font:500 1rem var(--body);padding:.5rem .8rem;cursor:pointer;border-bottom:2px solid transparent}
+nav button:hover{color:var(--fg)}
+nav button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--fg)}
+.lang{display:flex;border:1px solid var(--line)}
+.lang button{background:none;border:0;color:var(--mute);font:500 .85rem var(--body);padding:.35rem .6rem;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+section[hidden]{display:none}
+.wrap{padding:0 var(--pad) 4rem}
+.band{position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:var(--pad)}
+.band .bg{position:absolute;inset:-25% 0;background:linear-gradient(135deg,#1a1a1a,#2c2c2c) center/cover;background-image:var(--img),linear-gradient(135deg,#1a1a1a,#2c2c2c);filter:grayscale(1);will-change:transform}
+.band::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.band>.in{position:relative;z-index:1;width:100%}
+.hero{min-height:calc(100svh - 4.5rem)}
+.hero h1{font:clamp(4rem,19vw,15rem)/.88 var(--display);text-transform:uppercase}
+.hero p{margin-top:1.25rem;max-width:34rem;font-size:1.2rem}
+.text{min-height:90vh;align-items:center}
+.text .in{max-width:40rem}
+.text p+p{margin-top:1rem}
+.cta{min-height:70vh;align-items:center;justify-content:center;text-align:center}
+.cta .in{display:grid;justify-items:center;gap:1.5rem}
+h2{font:clamp(2rem,5vw,3.5rem)/1 var(--display);text-transform:uppercase;margin:0 0 1.25rem}
+.wrap h2{margin-top:2.5rem}
+.btn{display:inline-block;background:var(--fg);color:var(--bg);border:0;padding:.9rem 2rem;font:1.1rem var(--display);letter-spacing:.05em;cursor:pointer;text-decoration:none}
+.btn:hover{background:#d6d6d6}
+.filters{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.filters button{background:none;color:var(--fg);border:1px solid var(--line);padding:.45rem 1rem;font:500 .95rem var(--body);cursor:pointer;border-radius:2rem}
+.filters button:hover{border-color:var(--fg)}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,18rem),1fr));gap:.75rem}
+.tile{position:relative;aspect-ratio:3/2;background-image:var(--img),linear-gradient(135deg,#1a1a1a,#2c2c2c);background-size:cover;background-position:center;filter:grayscale(1) contrast(1.05);transition:filter .3s;overflow:hidden}
+.tile.wide{grid-column:span 2;aspect-ratio:auto}
+.tile:hover{filter:none}
+.tile span{position:absolute;left:0;right:0;bottom:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:.9rem}
+.tile[hidden]{display:none}
+.note{color:var(--mute);font-size:.9rem;margin-top:1.5rem;max-width:40rem}
+form{display:grid;gap:1.1rem;max-width:34rem}
+label{display:grid;gap:.35rem;font-weight:500}
+input,textarea{background:#000;color:var(--fg);border:1px solid var(--line);padding:.8rem;font:400 1rem var(--body);width:100%;border-radius:0}
+input:focus,textarea:focus{border-color:var(--fg);outline:none}
+textarea{min-height:9rem;resize:vertical}
+.send{justify-self:start}
+.status{color:var(--mute);min-height:1.5em}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:3rem}
+.contact dl{display:grid;gap:1rem;align-content:start}
+.contact dt{color:var(--mute);font-size:.9rem}
+footer{border-top:1px solid var(--line);padding:1.5rem var(--pad);color:var(--mute);font-size:.9rem}
+@media (max-width:30rem){.tile.wide{grid-column:auto;aspect-ratio:3/2}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.band .bg{inset:0;transform:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#rolunk">S&amp;S</a>
+  <div class="right">
+    <nav role="tablist">
+      <button role="tab" data-tab="rolunk" data-i18n="nav_about" aria-selected="true"></button>
+      <button role="tab" data-tab="munkaink" data-i18n="nav_work" aria-selected="false"></button>
+      <button role="tab" data-tab="kapcsolat" data-i18n="nav_contact" aria-selected="false"></button>
+    </nav>
+    <div class="lang" role="group" aria-label="Nyelv / Language">
+      <button data-lang="hu" aria-pressed="true">HU</button>
+      <button data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="rolunk" role="tabpanel">
+    <div class="band hero">
+      <div class="bg" style="--img:url('images/munka-1.jpg')"></div>
+      <div class="in">
+        <h1>S&amp;S<br>Productions</h1>
+        <p data-i18n="tagline"></p>
+      </div>
+    </div>
+    <div class="band text">
+      <div class="bg" style="--img:url('images/munka-3.jpg')"></div>
+      <div class="in">
+        <h2 data-i18n="about_h"></h2>
+        <p data-i18n="about_p1"></p>
+        <p data-i18n="about_p2"></p>
+      </div>
+    </div>
+    <div class="band cta">
+      <div class="bg" style="--img:url('images/munka-5.jpg')"></div>
+      <div class="in">
+        <h2 data-i18n="cta_h"></h2>
+        <a class="btn" href="#munkaink" data-i18n="cta_btn"></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="munkaink" role="tabpanel" class="wrap" hidden>
+    <h2 data-i18n="work_h"></h2>
+    <div class="filters" role="group">
+      <button data-f="all" data-i18n="f_all" aria-pressed="true"></button>
+      <button data-f="foto" data-i18n="f_foto" aria-pressed="false"></button>
+      <button data-f="video" data-i18n="f_video" aria-pressed="false"></button>
+    </div>
+    <div class="grid">
+      <div class="tile wide" data-c="foto" style="--img:url('images/munka-1.jpg')"><span data-i18n="cap_foto"></span></div>
+      <div class="tile" data-c="video" style="--img:url('images/munka-2.jpg')"><span data-i18n="cap_video"></span></div>
+      <div class="tile" data-c="foto" style="--img:url('images/munka-3.jpg')"><span data-i18n="cap_foto"></span></div>
+      <div class="tile" data-c="foto" style="--img:url('images/munka-4.jpg')"><span data-i18n="cap_foto"></span></div>
+      <div class="tile wide" data-c="video" style="--img:url('images/munka-5.jpg')"><span data-i18n="cap_video"></span></div>
+      <div class="tile" data-c="foto" style="--img:url('images/munka-6.jpg')"><span data-i18n="cap_foto"></span></div>
+    </div>
+    <p class="note" data-i18n="note"></p>
+  </section>
+
+  <section id="kapcsolat" role="tabpanel" class="wrap" hidden>
+    <h2 data-i18n="contact_h"></h2>
+    <div class="contact">
+      <form id="form" novalidate>
+        <label><span data-i18n="l_name"></span><input name="nev" autocomplete="name" required></label>
+        <label><span data-i18n="l_email"></span><input name="email" type="email" autocomplete="email" required></label>
+        <label><span data-i18n="l_msg"></span><textarea name="uzenet" required></textarea></label>
+        <button class="btn send" type="submit" data-i18n="send"></button>
+        <p class="status" role="status" id="status"></p>
+      </form>
+      <dl>
+        <div><dt data-i18n="d_email"></dt><dd><a href="mailto:hello@example.hu">hello@example.hu</a></dd></div>
+        <div><dt data-i18n="d_phone"></dt><dd>+36 00 000 0000</dd></div>
+        <div><dt data-i18n="d_city"></dt><dd data-i18n="city_ph"></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="y"></span> S&amp;S Productions</footer>
+
+<script>
+(function(){
+  var EMAIL = "hello@example.hu"; // ide írd a saját e-mail-címedet / put your e-mail address here
+  var T = {
+    hu:{
+      nav_about:"Rólunk", nav_work:"Munkáink", nav_contact:"Kapcsolat",
+      tagline:"Fotó és videó, amit nem felejtesz el.",
+      about_h:"Rólunk",
+      about_p1:"Az S&S Productions fotó- és videóprodukciós csapat. Ide kerül a bemutatkozó szöveg: kik vagytok, mióta dolgoztok együtt, és mi a ti stílusotok.",
+      about_p2:"Írjátok le, milyen megbízásokat vállaltok (esküvő, reklám, rendezvény, portré), és mi különböztet meg benneteket másoktól.",
+      cta_h:"Nézd meg a munkáinkat", cta_btn:"Munkáink megtekintése",
+      work_h:"Munkáink", f_all:"Mind", f_foto:"Fotó", f_video:"Videó",
+      cap_foto:"Fotó – munka címe", cap_video:"Videó – munka címe",
+      note:"A képek szürkeárnyalatosak, egérrel föléjük víve színesek lesznek.",
+      contact_h:"Kapcsolat", l_name:"Név", l_email:"E-mail-cím", l_msg:"Üzenet", send:"Üzenet küldése",
+      d_email:"E-mail", d_phone:"Telefon", d_city:"Város", city_ph:"Írjátok ide a városotokat",
+      err:"Töltsd ki mindhárom mezőt a küldés előtt.",
+      ok:"Megnyílt az e-mail-programod. Ott kattints a küldésre.",
+      subj:"Üzenet a weboldalról", b_name:"Név", b_mail:"E-mail"
+    },
+    en:{
+      nav_about:"About", nav_work:"Work", nav_contact:"Contact",
+      tagline:"Photo and video you won’t forget.",
+      about_h:"About us",
+      about_p1:"S&S Productions is a photo and video production team. Your introduction goes here: who you are, how long you have worked together, and what your style is.",
+      about_p2:"Describe the jobs you take on (weddings, advertising, events, portraits) and what sets you apart.",
+      cta_h:"See our work", cta_btn:"View our work",
+      work_h:"Our work", f_all:"All", f_foto:"Photo", f_video:"Video",
+      cap_foto:"Photo – project title", cap_video:"Video – project title",
+      note:"Images are shown in black and white. Hover over one to see it in colour.",
+      contact_h:"Contact", l_name:"Name", l_email:"E-mail address", l_msg:"Message", send:"Send message",
+      d_email:"E-mail", d_phone:"Phone", d_city:"City", city_ph:"Add your city here",
+      err:"Fill in all three fields before sending.",
+      ok:"Your e-mail app has opened. Press send there.",
+      subj:"Message from the website", b_name:"Name", b_mail:"E-mail"
+    }
+  };
+  var lang = "hu";
+  try{ lang = localStorage.getItem("lang") || ((navigator.language||"").slice(0,2) === "hu" ? "hu" : "en"); }catch(e){ lang = (navigator.language||"").slice(0,2) === "hu" ? "hu" : "en"; }
+  if(!T[lang]) lang = "hu";
+
+  function setLang(l){
+    lang = l;
+    try{ localStorage.setItem("lang", l); }catch(e){}
+    document.documentElement.lang = l;
+    document.title = "S&S Productions – " + (l === "hu" ? "fotó és videó" : "photo and video");
+    document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent = T[l][el.dataset.i18n]; });
+    document.querySelectorAll("[data-lang]").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.lang === l); });
+    document.getElementById("status").textContent = "";
+  }
+  document.querySelectorAll("[data-lang]").forEach(function(b){ b.addEventListener("click", function(){ setLang(b.dataset.lang); }); });
+
+  var tabs = document.querySelectorAll("[data-tab]");
+  function show(id){
+    if(!document.getElementById(id)) id = "rolunk";
+    document.querySelectorAll("main section").forEach(function(s){ s.hidden = s.id !== id; });
+    tabs.forEach(function(t){ t.setAttribute("aria-selected", t.dataset.tab === id); });
+    window.scrollTo(0,0);
+    parallax();
+  }
+  tabs.forEach(function(t){ t.addEventListener("click", function(){ location.hash = t.dataset.tab; }); });
+  window.addEventListener("hashchange", function(){ show(location.hash.slice(1)); });
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches, ticking = false;
+  function parallax(){
+    if(reduce) return;
+    document.querySelectorAll(".band .bg").forEach(function(bg){
+      var r = bg.parentNode.getBoundingClientRect();
+      if(r.bottom < 0 || r.top > window.innerHeight) return;
+      var d = r.top + r.height/2 - window.innerHeight/2;
+      bg.style.transform = "translate3d(0," + (d * -0.12).toFixed(1) + "px,0)";
+    });
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(function(){ parallax(); ticking = false; }); } }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll);
+
+  document.querySelectorAll("[data-f]").forEach(function(b){
+    b.addEventListener("click", function(){
+      document.querySelectorAll("[data-f]").forEach(function(x){ x.setAttribute("aria-pressed", x === b); });
+      document.querySelectorAll(".tile").forEach(function(t){ t.hidden = b.dataset.f !== "all" && t.dataset.c !== b.dataset.f; });
+    });
+  });
+
+  document.getElementById("form").addEventListener("submit", function(e){
+    e.preventDefault();
+    var f = e.target, st = document.getElementById("status"), t = T[lang];
+    if(!f.nev.value.trim() || !f.email.value.trim() || !f.uzenet.value.trim()){ st.textContent = t.err; return; }
+    var body = f.uzenet.value + "\n\n" + t.b_name + ": " + f.nev.value + "\n" + t.b_mail + ": " + f.email.value;
+    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(t.subj) + "&body=" + encodeURIComponent(body);
+    st.textContent = t.ok;
+  });
+
+  document.getElementById("y").textContent = new Date().getFullYear();
+  setLang(lang);
+  show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
